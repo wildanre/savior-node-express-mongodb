@@ -1,22 +1,23 @@
 const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcrypt'); // Assuming you're using bcrypt for password hashing
+const bcrypt = require('bcrypt'); // Assuming you're using bcrypt for password hashing
 const User = require('../models/User'); // Assuming you have a User model
 
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body; // Assuming request body contains email and password
-    
+
     // Find user by email
     const user = await User.findOne({ email_user: email });
 
     if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ error: 'pengguna tidak ditemukan' });
     }
 
-    // Validate password using bcrypt.compare
-    // const validPassword = await bcrypt.compare(password, user.password);
-    if (!password) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      // If password is incorrect, send generic error
+      return res.status(401).json({ error: 'Password salah' });
     }
 
     // Create JWT token
@@ -24,7 +25,7 @@ exports.login = async (req, res) => {
       id: user._id,
       email_user: user.email_user,
     };
-    
+
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
 
     // Send the token in response (don't send sensitive data like password)
