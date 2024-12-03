@@ -34,6 +34,16 @@ exports.getUserById = async (req, res) => {
 };
 
 // PUT update user
+// exports.updateUser = async (req, res) => {
+//   try {
+//     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//     if (!updatedUser) return res.status(404).json({ error: 'User not found' });
+//     res.status(200).json(updatedUser);
+//   } catch (error) {
+//     res.status(400).json({ error: 'Failed to update user' });
+//   }
+// };
+// PUT update user
 exports.updateUser = async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -43,6 +53,7 @@ exports.updateUser = async (req, res) => {
     res.status(400).json({ error: 'Failed to update user' });
   }
 };
+
 
 // DELETE user berdasarkan ID
 exports.deleteUser = async (req, res) => {
@@ -54,3 +65,5 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete user' });
   }
 };
+
+
