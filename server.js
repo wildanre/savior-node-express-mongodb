@@ -25,7 +25,7 @@ app.use('/pelaporan', require('./app/routes/pelaporan'))
 
 // A simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Selamat datang di api savior" });
 });
 
 mongoose.set('strictQuery', true);
